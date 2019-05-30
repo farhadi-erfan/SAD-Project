@@ -17,7 +17,7 @@ class User(AbstractUser):
 
 
 class Contributor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     JUNIOR = 0
     SENIOR = 1
@@ -29,4 +29,4 @@ class Contributor(models.Model):
 
 
 class Requester(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)

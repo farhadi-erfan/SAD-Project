@@ -1,10 +1,10 @@
 from django.contrib.auth import forms
 
-from crowso.accounts.models import User, Requester, Contributor
+from .models import User, Requester, Contributor
 
 
 class UserSignupForm(forms.UserCreationForm):
-    class Meta(forms.User):
+    class Meta(forms.UserCreationForm.Meta):
         model = User
         fields = ('name', 'username', 'email', 'phone_number', 'address')
 

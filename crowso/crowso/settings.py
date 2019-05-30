@@ -125,7 +125,7 @@ STATICFILES_DIRS = (
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = 'accounts.User'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 

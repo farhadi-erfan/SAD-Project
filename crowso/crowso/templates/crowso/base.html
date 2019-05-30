@@ -1,10 +1,31 @@
-<!DOCTYPE html>
+<!DOCTYPE html>{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>{% block title %}قطره قطره{% endblock %}{% block extra_title %}{% endblock %}
+    </title>
+
+<meta name="description"
+          content="{% block head_description %}کارهای خود را به جمع بسپارید!{% endblock %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'semantic/dist/semantic.min.css' %}">
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="{% static 'semantic/dist/semantic.min.js' %}"></script>
+    <meta content="text/html" charset="UTF-8">
+    <meta name="fontiran.com:license" content="LCTB2">
+
 </head>
 <body>
-
+    {% block top_bar %}
+{#        {% include '' %}#}
+    {% endblock %}
+    <div id="body_container">
+        {% block body %}{% endblock %}
+    </div>
+    {% block footer %}
+{#        {% include '' %}#}
+    {% endblock footer %}
 </body>
 </html>

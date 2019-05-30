@@ -1,0 +1,45 @@
+{% extends 'crowso/base.html' %}{% load account_extras %}
+{% block body %}
+<div class="ui center aligned container">
+<div class="ui middle aligned center aligned grid">
+  <div class="six wide column">
+    <h2 class="ui teal image header">
+      <img src="assets/images/logo.png" class="image">
+      <div class="content">
+        ثبت نام کاربر
+      </div>
+    </h2>
+    <form class="ui large form" method="post">
+      <div class="ui stacked segment">
+          {% csrf_token %}
+            {% for field in form %}
+             <div class="field">
+                 <div class="ui right icon input">
+                      {{ field|html_placeholder }}
+
+                      <i class="user icon"></i>
+                  </div>
+             </div>
+            {% if field.help_text %}
+              <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <p style="color: red">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+        <button type="submit" class="ui fluid large teal submit button">ثبت نام</button>
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+
+    <div class="ui message">
+      You already have an account? <a href="#login">Login</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+{% endblock %}

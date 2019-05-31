@@ -16,26 +16,28 @@
              <div class="field">
                  <div class="ui right icon input">
                       {{ field|html_placeholder }}
-
-                      <i class="user icon"></i>
+                     {% if field.label == 'Username' or field.label == 'Phone number' or field.label == 'Name'%}
+                         <i class="ui user icon"></i>
+                     {% elif field.label == 'Email address' or field.label == 'Address'%}
+                         <i class="ui user icon"></i>
+                     {% elif field.label == 'Password' or field.label == 'Password confirmation' %}
+                         <i class="ui lock icon"></i>
+                     {% endif %}
                   </div>
              </div>
             {% if field.help_text %}
               <small style="color: grey">{{ field.help_text }}</small>
             {% endif %}
-            {% for error in field.errors %}
+            <div class="ui error message">{% for error in field.errors %}
               <p style="color: red">{{ error }}</p>
-            {% endfor %}
+            {% endfor %}</div>
         {% endfor %}
         <button type="submit" class="ui fluid large teal submit button">ثبت نام</button>
       </div>
-
-      <div class="ui error message"></div>
-
     </form>
 
     <div class="ui message">
-      You already have an account? <a href="#login">Login</a>
+      You already have an account? <a href={% url 'accounts:login' %}>Login</a>
     </div>
   </div>
 </div>

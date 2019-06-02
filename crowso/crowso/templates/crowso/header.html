@@ -191,9 +191,9 @@
         <div class="right menu">
             <div class="item">
             <div class="item">
-                <a class="ui button">ورود</a>
+                <a class="ui button" href="{% url 'accounts:login' %}">ورود</a>
             </div>
-                <a class="ui primary button">ثبت‌نام</a>
+                <a class="ui primary button" href="{% url 'accounts:signup' %}">ثبت‌نام</a>
             </div>
         </div>
     </div>
@@ -212,8 +212,12 @@
             <a class="item">زمینه‌ها</a>
             <a class="item">دربارهٔ ما</a>
             <div class="right item">
-                <a class="ui inverted button">ورود</a>
-                <a class="ui inverted button">ثبت‌نام</a>
+                {% if user.is_authenticated %}
+                {{ user.username }}
+                {% else %}
+                <a class="ui inverted button" href="{% url 'accounts:login' %}">ورود</a>
+                <a class="ui inverted button" href="{% url 'accounts:signup' %}">ثبت‌نام</a>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -117,8 +117,8 @@ USE_TZ = True
 
 LOGIN_URL = 'accounts:login'
 AUTH_USER_MODEL = 'accounts.User'
-LOGOUT_REDIRECT_URL = 'core.home'
-LOGIN_REDIRECT_URL = 'core.home'
+LOGOUT_REDIRECT_URL = 'core:home'
+LOGIN_REDIRECT_URL = 'core:home'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

@@ -15,7 +15,7 @@ def get_done_percent(project):
     return percent
 
 
-def rejected_percent(project):
+def get_rejected_percent(project):
     sub_projects = project.subproject_set.all()
     percent = 0
     for sp in sub_projects:

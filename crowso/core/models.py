@@ -1,7 +1,7 @@
 from django.db import models
 
-from crowso.accounts.models import Contributor
-from crowso.core.utils import validate_percent
+from accounts.models import Contributor
+from core.utils import validate_percent
 
 
 class Project(models.Model):
@@ -16,12 +16,16 @@ class SubProject(models.Model):
 
 class ContributorSubProject(models.Model):
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
-    sub_project = models.ForeignKey(SubProject, on_delete=models.CASCADE)
+    sub_project = models.OneToOneField(SubProject, on_delete=models.CASCADE)
     start_date = models.DateTimeField(auto_now_add=True)
     deadline_date = models.DateTimeField()
 
 
 class Revision(models.Model):
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
+    sub_project = models.OneToOneField(SubProject, on_delete=models.CASCADE)
     accepted = models.BooleanField(default=False)
-    accept_date = models.DateTimeField()
+    revise_date = models.DateTimeField()
+
+    def is_rejected(self):
+        return self.revise_date is not None and not self.accepted

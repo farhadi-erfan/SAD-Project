@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<footer>
+
+    <style>
+        footer {
+            direction: rtl;
+            position: relative;
+            flex: 0 0 auto;
+            padding: 2.5em 0px;
+        }
+
+        .footer-logo {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+        }
+
+        .divider {
+
+        }
+    </style>
+
+    <div class="ui fitted divider"></div>
+    <div class="ui footer">
+        <div class="ui text container">
+            <div class="ui center aligned equal height three column grid">
+                <div class="column">
+
+                    <div>
+                        <div class="ui footer-logo">
+                            <a class="footer-logo" href="/">
+                                <img class="footer-logo" src="{% static "assets/image/logo.png" %}"/>
+                            </a>
+                            <a target="_blank" rel="noopener" href="https://www.instagram.com/">
+                                <i class="instagram brown icon"></i>
+                            </a>
+                            <a target="_blank" rel="noopener" href="https://twitter.com/">
+                                <i class="twitter blue icon"></i>
+                            </a>
+                            <a target="_blank" rel="noopener" href="https://telegram.me/">
+                                <i class="telegram blue icon"></i>
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="column" style="margin-top: 20px;">
+
+                    <ul class="footer-list ">
+                        <li><a class="animated" href="/" style="color: purple">قوانین و شرایط</a></li>
+                    </ul>
+
+                    <ul class="footer-list">
+                        <li><a class="animated" href="/" style="color: purple">ارتباط با ما</a></li>
+                    </ul>
+
+                    <ul class="footer-list">
+                        <li><a class="animated" href="/" style="color: purple">بلاگ</a></li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,4 +1,5 @@
-<!DOCTYPE html>{% load static %}
+<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,8 +15,11 @@
       crossorigin="anonymous"></script>
     <script src="{% static 'semantic/dist/semantic.min.js' %}"></script>
     <meta content="text/html" charset="UTF-8">
-    <meta name="fontiran.com:license" content="LCTB2">
-
+    <style>
+        #body_container{
+            margin: 40px;
+        }
+    </style>
 </head>
 <body>
     {% block top_bar %}

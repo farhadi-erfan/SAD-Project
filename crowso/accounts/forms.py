@@ -14,10 +14,10 @@ class UserSignupForm(forms.UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        if user.requester:
-            user.is_requester = True
-        else:
-            user.is_contributor = True
+        # if user.requester:
+        #     user.is_requester = True
+        # else:
+        user.is_contributor = True
         user.save()
 
         if self.requester:

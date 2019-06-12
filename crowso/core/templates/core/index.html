@@ -1,10 +1,30 @@
+{% extends 'crowso/base.html' %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% load staticfiles %}
+{% block body %}
+    <style>
+    #top-banner > *{
+         font-family: 'Vazir', sans-serif;
+    }
+    </style>
+    <div id="top-banner" class="center-vertical">
+        <div class="ui middle aligned center aligned container" id="banner-right">
+            <img id="main-image" src="{% static "assets/image/banner.jpg" %}">
+            <h2 style="font-family: 'Vazir', sans-serif;">
+                خود را به دست دریا بسپار
+            </h2>
+            <h1 style="font-family: 'Vazir', sans-serif;">
+                قطره قطره!
+            </h1>
+            <a href="/accounts/signup" class="ui big purple button"  style="font-family: 'Vazir', sans-serif;">
+                عضو شو!
+            </a>
+            <h2 class="land-p" style="margin-top: 30px; font-family: 'Vazir', sans-serif;">
+                می‌خوای کار کنی؟
+                <a href="/"  style="color: purple; font-family: 'Vazir', sans-serif;">
+                    بخون تا وانگهی
+                </a>
+            </h2>
+        </div>
+    </div>
+{% endblock %}

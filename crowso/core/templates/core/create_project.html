@@ -1,7 +1,7 @@
 {% extends 'crowso/base.html' %}
 {% load staticfiles %}
 {% block body %}
-        <div class="ui center aligned container">
+    <div class="ui center aligned container">
         <div class="ui middle aligned center aligned grid">
             <div class="six wide column">
                 <h2 class="ui teal image header">
@@ -14,15 +14,18 @@
                         {% csrf_token %}
                         {% for field in form %}
                             <div class="field">
-                                <div class="ui right icon input">
-                                    {{ field|html_placeholder }}
-                                    {% if field.label == 'Username' or field.label == 'Phone number' or field.label == 'Name' %}
-                                        <i class="ui user icon"></i>
-                                    {% elif field.label == 'Email address' or field.label == 'Address' %}
-                                        <i class="ui user icon"></i>
-                                    {% elif field.label == 'Password' or field.label == 'Password confirmation' %}
-                                        <i class="ui lock icon"></i>
-                                    {% endif %}
+                                <div class="ui right icon input" style=";">
+                                    {{ field }}
+                                    <div>
+                                        {{ field.label }}
+                                        {% if field.field.required %}
+                                            <p style="color: red">* </p>
+                                        {% else %}
+                                            <p> ‌</p>
+                                        {% endif %}
+
+                                    </div>
+
                                 </div>
                             </div>
                             {% if field.help_text %}
@@ -32,13 +35,9 @@
                                 <p style="color: red">{{ error }}</p>
                             {% endfor %}
                         {% endfor %}
-                        <button type="submit" class="ui fluid large teal submit button">ثبت نام</button>
+                        <button type="submit" class="ui fluid large teal submit button">ساخت پروژه</button>
                     </div>
                 </form>
-
-                <div class="ui message">
-                    حساب کاربری دارید؟ <a href={% url 'accounts:login' %}>وارد شوید</a>
-                </div>
             </div>
         </div>
     </div>

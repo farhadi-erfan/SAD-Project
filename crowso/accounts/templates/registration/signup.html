@@ -15,7 +15,7 @@
                         {% for field in form %}
                             <div class="field">
                                 <div class="ui right icon input">
-{#                                    {{ field|html_placeholder }}#}
+                                    {{ field|html_placeholder }}
                                     {% if field.label == 'Username' or field.label == 'Phone number' or field.label == 'Name' %}
                                         <i class="ui user icon"></i>
                                     {% elif field.label == 'Email address' or field.label == 'Address' %}

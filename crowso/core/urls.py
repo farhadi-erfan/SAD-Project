@@ -8,5 +8,5 @@ app_name = 'core'
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='crowso/base.html'), name='home'),
-    path('create_project', TemplateView.as_view(template_name='core/create_project.html'), name='create'),
+    path('create_project', views.project_creation_view, name='create_project'),
 ]

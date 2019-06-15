@@ -12,9 +12,7 @@ def project_creation_view(request):
             form.save()
             return redirect(reverse('core:home'))
         else:
-            print()
-            print('aaaaaaaa')
-            print(form.errors)
+            return render(request, 'core/create_project.html', {'form': form})
     else:
         form = forms.ProjectCreationForm()
         return render(request, 'core/create_project.html', {'form': form})

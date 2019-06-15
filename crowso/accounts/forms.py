@@ -6,7 +6,7 @@ from .models import User, Requester, Contributor
 class UserSignupForm(forms.UserCreationForm):
     class Meta(forms.UserCreationForm.Meta):
         model = User
-        fields = ('name', 'username', 'email', 'phone_number', 'address')
+        fields = ('name', 'username', 'email', 'phone_number', 'address', 'picture')
 
     def __init__(self, *args, **kwargs):
         self.requester = kwargs.pop('requester', False)

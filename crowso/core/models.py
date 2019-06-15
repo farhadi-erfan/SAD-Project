@@ -27,6 +27,7 @@ class Project(models.Model):
 
 class RequesterProject(models.Model):
     requester = models.ForeignKey(Requester, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
 
 class SubProject(models.Model):

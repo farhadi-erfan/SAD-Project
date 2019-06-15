@@ -2,13 +2,19 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from accounts.models import Requester, User
+from core.models import RequesterProject
 from . import forms
 
+
+@login_required
 def project_creation_view(request):
     if request.POST:
         form = forms.ProjectCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            RequesterProject.objects.create(
+                project=obj, requester=Requester.objects.get(user=request.user))
             return redirect(reverse('core:home'))
         else:
             return render(request, 'core/create_project.html', {'form': form})
@@ -26,3 +32,40 @@ def home(request):
     user = request.user
     projects = get_user_projects(user)
     return render(request, 'core/home.html', {'projects': projects})
+
+
+def credit(request):
+    if request.POST:
+        form = forms.ChargeCreditForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['charge_amount']
+            request.user.credit += amount
+            request.user.save()
+        return render(request, 'billing/credit.html', {
+            'success': True
+        })
+    else:
+        form = forms.ChargeCreditForm()
+        return render(request, 'billing/credit.html', {'form': form})
+
+
+def withdraw(request):
+    if request.POST:
+        form = forms.WithdrawForm(request.POST)
+        if form.is_valid():
+            print('aaaaaaaa')
+            request.user.credit = 0
+            request.user.save()
+            return render(request, 'billing/withdraw.html', {
+                'success': True
+            })
+        else:
+            return render(request, 'billing/withdraw.html', {
+                'success': False
+            })
+    else:
+        form = forms.WithdrawForm()
+        return render(request, 'billing/withdraw.html', {
+            'form': form,
+            'amount': request.user.credit
+        })

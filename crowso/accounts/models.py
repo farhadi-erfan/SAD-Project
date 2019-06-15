@@ -11,6 +11,7 @@ class User(AbstractUser):
     is_contributor = models.BooleanField(default=False)
     is_requester = models.BooleanField(default=False)
     credit = models.PositiveIntegerField(default=0)
+    picture = models.ImageField(null=True)
 
     def __str__(self):
         return self.username

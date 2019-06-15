@@ -10,3 +10,11 @@ class ProjectCreationForm(forms.ModelForm):
         model = Project
         fields = ['name', 'description', 'attachment', 'picture',
                   'value', 'type', 'deadline']
+
+
+class ChargeCreditForm(forms.Form):
+    charge_amount = forms.IntegerField(min_value=5000, max_value=5000000, initial=5000)
+
+
+class WithdrawForm(forms.Form):
+    card_number = forms.CharField(min_length=16, max_length=16)

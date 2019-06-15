@@ -1,12 +1,32 @@
 from django.db import models
 
-from accounts.models import Contributor
+from accounts.models import Contributor, Requester
 from core.utils import validate_percent
 
 
 class Project(models.Model):
     name = models.CharField(max_length=50)
+    description = models.TextField(max_length=1000)
     value = models.IntegerField()
+    deadline = models.DateField()
+    picture = models.ImageField()
+    attachment = models.FileField()
+
+    TRANSLATE = 1
+    TYPE = 2
+    OTHER = 3
+
+    TYPE_CHOICES = (
+        (TRANSLATE, 'translate'),
+        (TYPE, 'type'),
+        (OTHER, 'other')
+    )
+
+    type = models.IntegerField(choices=TYPE_CHOICES)
+
+
+class RequesterProject(models.Model):
+    requester = models.ForeignKey(Requester, on_delete=models.CASCADE)
 
 
 class SubProject(models.Model):

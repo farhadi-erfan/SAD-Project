@@ -23,7 +23,7 @@ def project_creation_view(request):
         form = forms.ProjectCreationForm()
         return render(request, 'core/create_project.html', {'form': form})
 
-
+@login_required
 def home(request):
 
     def get_user_projects(user):

@@ -1,0 +1,36 @@
+{% extends 'crowso/base.html' %}
+<!DOCTYPE html>
+{% load staticfiles %}
+{% block body %}
+    <div class="ui attached segment">
+        <div class="ui cards" style="margin: 40px;" align="center">
+            {% for prj in projects %}
+                <div class="ui link card">
+                    <div class="image">
+                        {#            <img src="{{ prj.picture }}">#}
+                        <img src="{% static "assets/image/logo.png" %}">
+                    </div>
+                    <div class="content">
+                        <div class="name" dir="rtl">{{ prj.name }} <strong><br/>قیمت: </strong> {{ prj.value }}</div>
+                        <p class="description" dir="rtl">{{ prj.description }}</p>
+                        <div class="extra content">
+                            <span class="right floated" dir="rtl">
+                                    <strong>مهلت انجام: </strong> {{ prj.deadline }}
+                            </span>
+                            <br/>
+                            <div class="ui center floated primary button">
+                                مشاهده و ویرایش پروژه
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="ui bottom attached buttons" tabindex="0">
+        <button class="ui large negative button">تسویه حساب</button>
+        <div class="or"></div>
+        <button class="ui large positive button">افزایش اعتبار</button>
+    </div>
+{% endblock %}

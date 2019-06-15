@@ -1,5 +1,6 @@
 {% extends 'crowso/base.html' %}
 {% load staticfiles %}
+{% load semanticui %}
 {% block body %}
     <div class="ui center aligned container">
         <div class="ui middle aligned center aligned grid">
@@ -13,21 +14,7 @@
                     <div class="ui segment">
                         {% csrf_token %}
                         {% for field in form %}
-                            <div class="field">
-                                <div class="ui right icon input" style=";">
-                                    {{ field }}
-                                    <div>
-                                        {{ field.label }}
-                                        {% if field.field.required %}
-                                            <p style="color: red">* </p>
-                                        {% else %}
-                                            <p> ‌</p>
-                                        {% endif %}
-
-                                    </div>
-
-                                </div>
-                            </div>
+                            {% render_field field _inline=1%}
                             {% if field.help_text %}
                                 <small style="color: grey">{{ field.help_text }}</small>
                             {% endif %}

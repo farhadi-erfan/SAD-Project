@@ -158,12 +158,16 @@
     <div class="ui top fixed hidden menu">
         <div class="ui container">
             <div class="left menu">
-                <div class="borderless item">
-                    <a class="ui button" href="{% url 'accounts:login' %}">ورود</a>
-                </div>
-                <div class="borderless item">
-                    <a class="ui primary button" href="{% url 'accounts:signup' %}">ثبت‌نام</a>
-                </div>
+                {% if user.is_authenticated %}
+                    <div class="item">پروژه‌های {{ user.name }}</div>
+                {% else %}
+                    <div class="borderless item">
+                        <a class="ui button" href="{% url 'accounts:login' %}">ورود</a>
+                    </div>
+                    <div class="borderless item">
+                        <a class="ui primary button" href="{% url 'accounts:signup' %}">ثبت‌نام</a>
+                    </div>
+                {% endif %}
             </div>
             <div class="right big menu">
                 <a class="borderless item">شرکت‌ها</a>
@@ -190,8 +194,12 @@
                 <div class="left menu">
                     <div class="borderless item">
                         {% if user.is_authenticated %}
-                            {{ user.username }}
-                            <a class="ui inverted button" href="{% url 'accounts:logout' %}">خروج</a>
+                            <div class="ui borderless item">
+                                <a class="ui inverted button" href="{% url 'accounts:logout' %}">خروج</a>
+                                <div class="ui text">{{ user.name }}</div>
+
+                            </div>
+
                         {% else %}
                             <a class="ui inverted button" href="{% url 'accounts:login' %}">ورود</a>
                             <a class="ui inverted button" href="{% url 'accounts:signup' %}">ثبت‌نام</a>

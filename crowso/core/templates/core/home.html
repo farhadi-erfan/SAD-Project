@@ -29,8 +29,9 @@
         </div>
     </div>
     <div class="ui bottom attached buttons" tabindex="0">
-        <button class="ui large negative button">تسویه حساب</button>
+        <a href="{% url 'core:withdraw' %}" class="ui red button">تسویه حساب</a>
         <div class="or"></div>
-        <button class="ui large positive button">افزایش اعتبار</button>
+        <a href="{% url 'core:credit' %}" class="ui green button">افزایش اعتبار</a>
+{#        <button class="ui large positive button">افزایش اعتبار</button>#}
     </div>
 {% endblock %}

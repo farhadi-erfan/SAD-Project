@@ -17,11 +17,11 @@ class UserSignupForm(forms.UserCreationForm):
         # if user.requester:
         #     user.is_requester = True
         # else:
-        user.is_contributor = True
+        user.is_requester = True
         user.save()
-
-        if self.requester:
-            Requester.objects.create(user=user)
-        else:
-            Contributor.objects.create(user=user)
+        #
+        # if self.requester:
+        Requester.objects.create(user=user)
+        # else:
+        #     Contributor.objects.create(user=user)
         return user

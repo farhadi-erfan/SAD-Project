@@ -9,7 +9,7 @@
                         ثبت نام کاربر
                     </div>
                 </h2>
-                <form class="ui large form" method="post">
+                <form class="ui large form" method="post" enctype="multipart/form-data">
                     <div class="ui segment">
                         {% csrf_token %}
                         {% for field in form %}

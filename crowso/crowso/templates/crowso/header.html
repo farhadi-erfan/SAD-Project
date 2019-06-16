@@ -159,8 +159,17 @@
         <div class="ui container">
             <div class="left menu">
                 {% if user.is_authenticated %}
-                    <div class="item">پروژه‌های {{ user.name }}</div>
-                {% else %}
+                    <h3 class="ui text" style="font-family: inherit; margin: 5px;">
+                        <a class="ui animated fade button" tabindex="0" dir="rtl"
+                           href="{% url 'accounts:show_profile' %}">
+                            <div class="visible content" style="padding-right: 40px; padding-left: 40px;">
+                                {{ user.name }}
+                            </div>
+                            <div class="hidden content">
+                                مشاهده پروفایل کاربری
+                            </div>
+                        </a>
+                    </h3>                {% else %}
                     <div class="borderless item">
                         <a class="ui button" href="{% url 'accounts:login' %}">ورود</a>
                     </div>
@@ -196,7 +205,18 @@
                         {% if user.is_authenticated %}
                             <div class="ui borderless item">
                                 <a class="ui inverted button" href="{% url 'accounts:logout' %}">خروج</a>
-                                <div class="ui text">{{ user.name }}</div>
+                                <h3 class="ui text" style="font-family: inherit; margin: 5px;">
+                                    <a class="ui animated fade button" tabindex="0" dir="rtl"
+                                       href="{% url 'accounts:show_profile' %}">
+                                        <div class="visible content" style="padding-right: 40px; padding-left: 40px;">
+                                            {{ user.name }}
+                                        </div>
+                                        <div class="hidden content">
+                                            مشاهده پروفایل کاربری
+                                        </div>
+                                    </a>
+                                </h3>
+
 
                             </div>
 

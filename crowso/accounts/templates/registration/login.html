@@ -2,35 +2,41 @@
 {% load staticfiles %}
 {% block title %}ورود{% endblock %}
 {% block body %}
-<div class="ui center aligned container">
-<div class="ui middle aligned center aligned grid">
-  <div class="six wide column">
-    <h2 class="ui teal image header">
-      <div class="content">
-            ورود به حساب کاربری
-      </div>
-    </h2>
-    <form class="ui large form" method="post">
-      <div class="ui segment">
-          {% csrf_token %}
-          <div class="field">
-              {% for field in form %}
-                 <div class="field">
-                     {{ field }}
-                     </div>
-                 {% endfor %}
-             </div>
-          <button type="submit" class="ui fluid large teal submit button" >ورود</button>
-      </div>
+    <style type="text/css">
+        .masthead .ui.menu .ui.button {
+            font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
+            margin-left: 0.5em;
+        }
+    </style>
+    <div class="ui center aligned container">
+        <div class="ui middle aligned center aligned grid">
+            <div class="six wide column">
+                <h2 class="ui teal image header">
+                    <div class="content">
+                        ورود به حساب کاربری
+                    </div>
+                </h2>
+                <form class="ui large form" method="post">
+                    <div class="ui segment">
+                        {% csrf_token %}
+                        <div class="field">
+                            {% for field in form %}
+                                <div class="field">
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="ui fluid large teal submit button">ورود</button>
+                    </div>
 
-      <div class="ui error message"></div>
+                    <div class="ui error message"></div>
 
-    </form>
+                </form>
 
-    <div class="ui message">
-       حساب کاربری ندارید؟ <a href='{% url 'accounts:signup' %}'>ثبت‌نام کنید</a>
+                <div class="ui message">
+                    حساب کاربری ندارید؟ <a href='{% url 'accounts:signup' %}'>ثبت‌نام کنید</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-</div>
 {% endblock %}

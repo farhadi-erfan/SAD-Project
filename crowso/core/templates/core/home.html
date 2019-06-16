@@ -3,13 +3,27 @@
 {% load staticfiles %}
 {% block title %}خانه{% endblock %}
 {% block body %}
+    <style type="text/css">
+        .masthead .ui.menu .ui.button {
+            font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
+            margin-left: 0.5em;
+        }
+    </style>
+    <h1 class="ui center aligned icon header" dir="rtl">
+        <i class="circular tint icon"></i>
+        پروژه‌های من
+    </h1>
+    <a href="{% url 'core:create_project' %}" class="ui attached top labeled icon button">
+        <i class="plus square icon"></i>
+        ایجاد پروژه
+    </a>
     <div class="ui attached segment">
         <div class="ui cards" style="margin: 40px;" align="center">
             {% for prj in projects %}
                 <div class="ui link card">
                     <div class="image">
-                        {#            <img src="{{ prj.picture }}">#}
-                        <img src="{% static "assets/image/logo.png" %}">
+                        <img src="{{ prj.picture }}">
+                        {#                        <img src="{% static "assets/image/logo.png" %}">#}
                     </div>
                     <div class="content">
                         <div class="name" dir="rtl">{{ prj.name }} <strong><br/>قیمت: </strong> {{ prj.value }}</div>
@@ -33,6 +47,6 @@
         <a href="{% url 'core:withdraw' %}" class="ui red button">تسویه حساب</a>
         <div class="or"></div>
         <a href="{% url 'core:credit' %}" class="ui green button">افزایش اعتبار</a>
-{#        <button class="ui large positive button">افزایش اعتبار</button>#}
+        {#        <button class="ui large positive button">افزایش اعتبار</button>#}
     </div>
 {% endblock %}

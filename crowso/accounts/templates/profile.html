@@ -50,13 +50,13 @@
                 {% endif %}
 
 			</div>
-				<div class="content">
-					<a class="header">نام</a>
+				<div class="content" >
+					<a class="header">{{ user.name }}</a>
 					<div class="meta">
 					  <span>@{{ user.username }}</span>
 					</div>
-					<div class="description">
-					  Description.
+					<div class="description" dir="rtl">
+					  اعتبار: {{ user.credit }}
 					</div>
 				</div>
 		</div>
@@ -99,8 +99,8 @@
     {% for project in projects %}
         <div class="item">
           <div class="content">
-            <div class="header">{{ project.name }}</div>
-            Description
+            <div class="header" dir="rtl">{{ project.name }}</div>
+            {{ project.descritption }}
           </div>
     </div>
 

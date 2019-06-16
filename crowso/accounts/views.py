@@ -19,8 +19,9 @@ class SignupView(generic.CreateView):
 
 @login_required
 def view_profile(request):
-    projects = RequesterProject.objects.filter(
-        requester=Requester.objects.get(user=request.user)).values_list('project')
+    projects = Project.objects.filter(
+        requesterproject__requester=Requester.objects.get(user=request.user)
+    )
     return render(request, 'profile.html', {
         'user': request.user,
         'projects': projects

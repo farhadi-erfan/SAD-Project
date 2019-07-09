@@ -8,13 +8,13 @@ class User(AbstractUser):
     name = models.CharField(max_length=50)
     address = models.TextField(max_length=500)
     phone_number = models.CharField(max_length=12)
-    is_contributor = models.BooleanField(default=False)
     is_requester = models.BooleanField(default=False)
     credit = models.PositiveIntegerField(default=0)
     picture = models.ImageField(null=True)
 
     def __str__(self):
         return self.username
+
 
 
 class Contributor(models.Model):

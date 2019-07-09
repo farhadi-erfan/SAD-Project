@@ -23,5 +23,6 @@ def html_placeholder(field, args=None):
     elif 'password2' in name:
         ph = "تکرار گذرواژه"
 
+
     field.field.widget.attrs.update({"placeholder": ph})
     return field

@@ -33,13 +33,13 @@ class TestFormProject(TestCase):
         upload_file = open('static/assets/image/banner.jpg', 'rb')
         img = SimpleUploadedFile(upload_file.name, upload_file.read())
         form = UserSignupForm(files={'picture': img}, data={'password1': 'aabbaabb', 'password2': 'aabbaabb',
-            'name': 'a', 'username': 'ab', 'email': 'ab', 'phone_number': '09091234567', 'address': 'b'})
+            'name': 'a', 'username': 'ab', 'email': 'ab', 'is_requester': False, 'phone_number': '09091234567', 'address': 'b'})
         print(form.errors)
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 1)
 
         form = UserSignupForm(files={'picture': img}, data={'password1': 'abbbaa2', 'password2': 'abbbaa2',
-            'name': 'a', 'username': 'ab', 'email': 'ab@c.ir', 'phone_number': '09091234567', 'address': 'b'})
+            'name': 'a', 'username': 'ab', 'email': 'ab@c.ir', 'is_requester': True, 'phone_number': '09091234567', 'address': 'b'})
         print(form.errors)
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 1)

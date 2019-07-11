@@ -7,7 +7,7 @@ from core.utils import validate_percent
 class Project(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
-    value = models.IntegerField()
+    value = models.PositiveIntegerField()
     deadline = models.DateField()
     picture = models.ImageField()
     attachment = models.FileField()
@@ -33,13 +33,21 @@ class RequesterProject(models.Model):
 class SubProject(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     percent = models.IntegerField(validators=[validate_percent])
+    done = models.BooleanField(default=False)
+    assigned = models.BooleanField(default=False)
 
 
 class ContributorSubProject(models.Model):
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
-    sub_project = models.OneToOneField(SubProject, on_delete=models.CASCADE)
+    sub_project = models.OneToOneField(SubProject, related_name='contributor',
+                                       on_delete=models.CASCADE)
     start_date = models.DateTimeField(auto_now_add=True)
-    deadline_date = models.DateTimeField()
+    deadline_date = models.DateField(null=True)
+
+    def save(self, *args, **kwargs):
+        super(ContributorSubProject, self).save()
+        if not self.deadline_date:
+            self.deadline_date = self.sub_project.project.deadline
 
 
 class Revision(models.Model):

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
-    'semanticuiforms'
+    'semanticuiforms',
+    'core'
 ]
 
 MIDDLEWARE = [

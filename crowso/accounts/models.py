@@ -16,7 +16,6 @@ class User(AbstractUser):
         return self.username
 
 
-
 class Contributor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 

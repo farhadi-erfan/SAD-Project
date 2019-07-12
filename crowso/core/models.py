@@ -54,7 +54,7 @@ class Revision(models.Model):
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
     sub_project = models.OneToOneField(SubProject, on_delete=models.CASCADE)
     accepted = models.BooleanField(default=False)
-    revise_date = models.DateTimeField()
+    revise_date = models.DateTimeField(null=True)
 
     def is_rejected(self):
         return self.revise_date is not None and not self.accepted

@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from accounts.models import Requester, User
-from core.models import RequesterProject, Project
+from accounts.models import Requester, User, Contributor
+from core.models import RequesterProject, Project, SubProject, ContributorSubProject
 from . import forms
 
 
@@ -81,3 +81,22 @@ def withdraw(request):
             'form': form,
             'amount': request.user.credit
         })
+
+@login_required
+def accept_task(request, subproject_id):
+    try:
+        contibutor = Contributor.objects.get(user=request.user)
+        subproject = SubProject.objects.get(id=subproject_id)
+    except Contributor.DoesNotExist:
+        raise Http404
+    except SubProject.DoesNotExist:
+        raise Http404
+
+    ContributorSubProject.objects.create(
+        subproject=subproject,
+        contibutor=contibutor
+    )
+    return redirect(reverse(
+        'core:home'
+    ))
+

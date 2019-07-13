@@ -33,9 +33,9 @@
                                     <strong>مهلت انجام: </strong> {{ prj.deadline }}
                             </span>
                             <br/>
-                            <div class="ui center floated primary button">
+                            <a href="{% url 'core:submit_work' project=prj.name %}" class="ui center floated primary button">
                                 مشاهده و ویرایش پروژه
-                            </div>
+                            </a>
                         </div>
                     </div>
 

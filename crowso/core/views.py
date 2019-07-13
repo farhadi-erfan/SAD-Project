@@ -119,7 +119,6 @@ def accept_task(request, project_id):
 def work(request, project):
 
     project_name = project
-    print("here: ", project_name)
     projects = get_user_projects(request.user)
     for p in projects:
         if (p.name==project_name):

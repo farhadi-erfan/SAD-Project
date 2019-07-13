@@ -120,16 +120,23 @@ def work(request, subproject_id):
 
     subproject = SubProject.objects.get(id=subproject_id)
     project = Project.objects.get(id=subproject.project.id)
+    contributor = Contributor.objects.get(user=request.user)
     if request.POST:
         form = forms.ContributorSubProjectForm(request.POST, request.FILES)
         print("well: ")
         if form.is_valid():
             print("success")
-            #obj = form.save()
-            #set the attachment address
+            attachment = form.cleaned_data['attachment']
+            csp = ContributorSubProject.objects.get(
+                subproject=subproject,
+                contributor=contributor
+            )
+            csp.attachment = attachment
+            csp.save()
+
             return redirect(reverse('core:home'))
         else:
             return render(request, 'core/submit_work.html', {'form': forms.ContributorSubProjectForm, 'project': project})
     else:
-        form = forms.ContributorSubProjectForm
+        form = forms.ContributorSubProjectForm()
         return render(request, 'core/submit_work.html', {'form': form, 'project': project})

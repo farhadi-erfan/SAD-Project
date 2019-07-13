@@ -11,11 +11,9 @@ class ProjectCreationForm(forms.ModelForm):
         fields = ['name', 'description', 'attachment', 'picture', 'subprojects_num',
                   'value', 'type', 'deadline']
 
-class ContributorSubProjectForm(forms.ModelForm):
 
-    class Meta:
-        model = ContributorSubProject
-        fields = ['attachment']
+class ContributorSubProjectForm(forms.Form):
+    attachment = forms.FileField(label='فایل نهایی')
 
 
 class ChargeCreditForm(forms.Form):

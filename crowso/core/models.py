@@ -11,6 +11,7 @@ class Project(models.Model):
     deadline = models.DateField()
     picture = models.ImageField()
     attachment = models.FileField()
+    subprojects_num = models.IntegerField(default=1)
 
     TRANSLATE = 1
     TYPE = 2

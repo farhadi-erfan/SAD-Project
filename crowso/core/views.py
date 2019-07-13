@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -16,6 +16,9 @@ def project_creation_view(request):
             obj = form.save()
             RequesterProject.objects.create(
                 project=obj, requester=Requester.objects.get(user=request.user))
+            for i in range(obj.subprojects_num):
+                SubProject.objects.create(
+                    project=obj, percent=0)
             return redirect(reverse('core:home'))
         else:
             return render(request, 'core/create_project.html', {'form': form})
@@ -39,11 +42,19 @@ def home(request):
         )
 
         return ps
+
+    def get_available_projects():
+        ps = Project.objects.all()
+        # TODO - has to filter done projects
+        return ps
+
     user = request.user
-    projects = get_user_projects(user)
-    for e in projects:
-        print(e)
-    return render(request, 'core/home.html', {'projects': projects})
+    if user.is_requester:
+        projects = get_user_projects(user)
+        return render(request, 'core/home.html', {'projects': projects, 'is_requester': True})
+    else:
+        projects = get_available_projects()
+        return render(request, 'core/home.html', {'projects': projects, 'is_requester': False})
 
 
 def credit(request):
@@ -65,7 +76,6 @@ def withdraw(request):
     if request.POST:
         form = forms.WithdrawForm(request.POST)
         if form.is_valid():
-            print('aaaaaaaa')
             request.user.credit = 0
             request.user.save()
             return render(request, 'billing/withdraw.html', {
@@ -83,20 +93,28 @@ def withdraw(request):
         })
 
 @login_required
-def accept_task(request, subproject_id):
+def work(request):
+    return HttpResponse('do')
+
+
+@login_required
+def accept_task(request, project_id):
+    prj=Project.objects.get(id=project_id)
     try:
-        contibutor = Contributor.objects.get(user=request.user)
-        subproject = SubProject.objects.get(id=subproject_id)
+        contributor = Contributor.objects.get(user=request.user)
+        subproject = SubProject.objects.filter(project=prj)[0]
     except Contributor.DoesNotExist:
         raise Http404
     except SubProject.DoesNotExist:
         raise Http404
 
     ContributorSubProject.objects.create(
-        subproject=subproject,
-        contibutor=contibutor
+        sub_project=subproject,
+        contributor=contributor
     )
+    prj.subprojects_num -= 1
+    prj.save()
     return redirect(reverse(
-        'core:home'
+        'core:work'
     ))
 

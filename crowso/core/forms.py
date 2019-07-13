@@ -1,15 +1,21 @@
 from django import forms
 from django.forms import widgets
 
-from core.models import Project
+from core.models import Project, ContributorSubProject
 
 
 class ProjectCreationForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ['name', 'description', 'attachment', 'picture',
+        fields = ['name', 'description', 'attachment', 'picture', 'subprojects_num',
                   'value', 'type', 'deadline']
+
+class ContributorSubProjectForm(forms.ModelForm):
+
+    class Meta:
+        model = ContributorSubProject
+        fields = ['attachment']
 
 
 class ChargeCreditForm(forms.Form):

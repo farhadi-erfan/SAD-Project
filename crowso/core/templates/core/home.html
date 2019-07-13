@@ -3,50 +3,98 @@
 {% load staticfiles %}
 {% block title %}خانه{% endblock %}
 {% block body %}
-    <style type="text/css">
-        .masthead .ui.menu .ui.button {
-            font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
-            margin-left: 0.5em;
-        }
-    </style>
-    <h1 class="ui center aligned teal icon header" dir="rtl">
-        <i class="circular teal tint icon"></i>
-        پروژه‌های من
-    </h1>
-    <a href="{% url 'core:create_project' %}" class="ui attached top labeled black icon button">
-        <i class="plus square icon"></i>
-        ایجاد پروژه
-    </a>
-    <div class="ui attached segment">
-        <div class="ui cards" style="margin: 40px;" align="center">
-            {% for prj in projects %}
-                <div class="ui link card">
-                    <div class="image">
-                        <img src="{{ prj.picture.url }}">
-                        {#                        <img src="{% static "assets/image/logo.png" %}">#}
-                    </div>
-                    <div class="content">
-                        <div class="name" dir="rtl">{{ prj.name }} <strong><br/>قیمت: </strong> {{ prj.value }}</div>
-                        <p class="description" dir="rtl">{{ prj.description }}</p>
-                        <div class="extra content">
-                            <span class="right floated" dir="rtl">
-                                    <strong>مهلت انجام: </strong> {{ prj.deadline }}
+    {% if is_requester %}
+        <style type="text/css">
+            .masthead .ui.menu .ui.button {
+                font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
+                margin-left: 0.5em;
+            }
+        </style>
+        <h1 class="ui center aligned teal icon header" dir="rtl">
+            <i class="circular teal tint icon"></i>
+            پروژه‌های من
+        </h1>
+        <a href="{% url 'core:create_project' %}" class="ui attached top labeled black icon button">
+            <i class="plus square icon"></i>
+            ایجاد پروژه
+        </a>
+        <div class="ui attached segment">
+            <div class="ui cards" style="margin: 40px;" align="center">
+                {% for prj in projects %}
+                    <div class="ui link card">
+                        <div class="image">
+                            <img src="{{ prj.picture.url }}">
+                            {#                        <img src="{% static "assets/image/logo.png" %}">#}
+                        </div>
+                        <div class="content">
+                            <div class="name" dir="rtl">{{ prj.name }} <strong><br/>قیمت: </strong> {{ prj.value }}
+                            </div>
+                            <p class="description" dir="rtl">{{ prj.description }}</p>
+                            <div class="extra content">
+                            <span class="center floated" dir="rtl"><br><br>
+                                    <strong>تعداد تسک‌ها: </strong> {{ prj.subprojects_num }}<br>
+                                    <strong>مهلت انجام: </strong> {{ prj.deadline }}<br>
                             </span>
-                            <br/>
-                            <div class="ui center floated primary button">
-                                مشاهده و ویرایش پروژه
+                                <br/>
+                                <div class="ui center floated primary button">
+                                    مشاهده و ویرایش پروژه
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                </div>
-            {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    <div class="ui bottom attached buttons" tabindex="0">
-        <a href="{% url 'core:withdraw' %}" class="ui red button">تسویه حساب</a>
-        <div class="or"></div>
-        <a href="{% url 'core:credit' %}" class="ui green button">افزایش اعتبار</a>
-        {#        <button class="ui large positive button">افزایش اعتبار</button>#}
-    </div>
+        <div class="ui bottom attached buttons" tabindex="0">
+            <a href="{% url 'core:withdraw' %}" class="ui red button">تسویه حساب</a>
+            <div class="or"></div>
+            <a href="{% url 'core:credit' %}" class="ui green button">افزایش اعتبار</a>
+            {#        <button class="ui large positive button">افزایش اعتبار</button>#}
+        </div>
+    {% else %}
+        <style type="text/css">
+            .masthead .ui.menu .ui.button {
+                font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
+                margin-left: 0.5em;
+            }
+        </style>
+        <a href="{% url 'core:home' %}" class="ui attached top labeled black icon button">
+            <i class="plus square icon"></i>
+            مشاهدهٔ سابقهٔ تسک‌ها
+        </a>
+        <h1 class="ui center aligned teal icon header" dir="rtl">
+            <i class="circular teal tint icon"></i>
+            تسک‌های در دسترس
+        </h1>
+        <div class="ui attached segment">
+            <div class="ui cards" style="margin: 40px;" align="center">
+                {% for prj in projects %}
+                    <div class="ui link card">
+                        <div class="image">
+                            <img src="{{ prj.picture.url }}">
+                            {#                        <img src="{% static "assets/image/logo.png" %}">#}
+                        </div>
+                        <div class="content">
+                            <div class="name" dir="rtl">{{ prj.name }} <strong><br/>قیمت: </strong> {{ prj.value }}
+                            </div>
+                            <p class="description" dir="rtl">{{ prj.description }}</p>
+                            <div class="extra content">
+                            <span class="center floated" dir="rtl"><br><br>
+                                    <strong>تعداد تسک‌ها: </strong> {{ prj.subprojects_num }}<br>
+                                    <strong>مهلت انجام: </strong> {{ prj.deadline }}<br>
+                            </span>
+                                <br/>
+                                <a class="ui center floated primary button"
+                                   href="{% url 'core:accept_task' project_id=prj.id %}">
+                                    قبول و انجام پروژه
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

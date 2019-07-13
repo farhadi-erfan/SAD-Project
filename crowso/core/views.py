@@ -26,9 +26,9 @@ def project_creation_view(request):
         form = forms.ProjectCreationForm()
         return render(request, 'core/create_project.html', {'form': form})
 
+
 @login_required
 def home(request):
-
     def get_user_projects(user):
         # import datetime
         # lipsum = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
@@ -43,9 +43,22 @@ def home(request):
 
         return ps
 
-    def get_available_projects():
-        ps = Project.objects.all()
-        # TODO - has to filter done projects
+    def get_available_projects(user):
+        psp = Project.objects.all()
+        sps = SubProject.objects.all()
+        csps = ContributorSubProject.objects.all()
+        ps = []
+        for p in psp:
+            bad_p = False
+            for sp in sps:
+                if sp.project == p:
+                    for csp in csps:
+                        if sp == csp.sub_project and user == csp.contributor and not csp.done:
+                            bad_p = True
+                            break
+            if not bad_p:
+                ps += [p]
+                # TODO - has to filter done projects
         return ps
 
     user = request.user
@@ -53,7 +66,7 @@ def home(request):
         projects = get_user_projects(user)
         return render(request, 'core/home.html', {'projects': projects, 'is_requester': True})
     else:
-        projects = get_available_projects()
+        projects = get_available_projects(user)
         return render(request, 'core/home.html', {'projects': projects, 'is_requester': False})
 
 
@@ -93,12 +106,17 @@ def withdraw(request):
             'amount': request.user.credit
         })
 
+
 @login_required
 def accept_task(request, project_id):
-    prj=Project.objects.get(id=project_id)
+    prj = Project.objects.get(id=project_id)
     try:
         contributor = Contributor.objects.get(user=request.user)
-        subproject = SubProject.objects.filter(project=prj)[0]
+        subprojects = SubProject.objects.filter(project=prj)
+        for x in subprojects:
+            if x and not x.done and not x.assigned:
+                subproject = x
+                break
     except Contributor.DoesNotExist:
         raise Http404
     except SubProject.DoesNotExist:
@@ -108,16 +126,16 @@ def accept_task(request, project_id):
         sub_project=subproject,
         contributor=contributor
     )
+    subproject.assigned = True
+    subproject.save()
     prj.subprojects_num -= 1
     prj.save()
-    return redirect(reverse(
-        'core:work'
-    ), subproject_id=subproject.id)
+    print('id:', subproject.id)
+    return redirect(reverse('core:work', kwargs={'subproject_id': subproject.id}))
 
 
 @login_required
 def work(request, subproject_id):
-
     subproject = SubProject.objects.get(id=subproject_id)
     project = Project.objects.get(id=subproject.project.id)
     contributor = Contributor.objects.get(user=request.user)
@@ -127,16 +145,21 @@ def work(request, subproject_id):
         if form.is_valid():
             print("success")
             attachment = form.cleaned_data['attachment']
+            for x in ContributorSubProject.objects.all():
+                print('folan', str(x.contributor), str(x.sub_project))
             csp = ContributorSubProject.objects.get(
-                subproject=subproject,
+                sub_project=subproject,
                 contributor=contributor
             )
             csp.attachment = attachment
             csp.save()
+            subproject.done = True
+            subproject.save()
 
             return redirect(reverse('core:home'))
         else:
-            return render(request, 'core/submit_work.html', {'form': forms.ContributorSubProjectForm, 'project': project})
+            return render(request, 'core/submit_work.html',
+                          {'form': forms.ContributorSubProjectForm, 'project': project, 'subproject':subproject})
     else:
         form = forms.ContributorSubProjectForm()
-        return render(request, 'core/submit_work.html', {'form': form, 'project': project})
+        return render(request, 'core/submit_work.html', {'form': form, 'project': project, 'subproject':subproject})

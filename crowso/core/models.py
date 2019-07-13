@@ -40,11 +40,14 @@ class SubProject(models.Model):
 
 class ContributorSubProject(models.Model):
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
-    sub_project = models.OneToOneField(SubProject, related_name='contributor',
+    sub_project = models.ForeignKey(SubProject, related_name='contributor',
                                        on_delete=models.CASCADE)
     start_date = models.DateTimeField(auto_now_add=True)
     deadline_date = models.DateField(null=True)
     attachment = models.FileField(null=True)
+
+    class Meta:
+        unique_together = (("contributor", "sub_project"),)
 
     def save(self, *args, **kwargs):
         super(ContributorSubProject, self).save()
@@ -54,7 +57,7 @@ class ContributorSubProject(models.Model):
 
 class Revision(models.Model):
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
-    sub_project = models.OneToOneField(SubProject, on_delete=models.CASCADE)
+    sub_project = models.ForeignKey(SubProject, on_delete=models.CASCADE)
     accepted = models.BooleanField(default=False)
     revise_date = models.DateTimeField(null=True)
 

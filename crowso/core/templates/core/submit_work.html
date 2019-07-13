@@ -57,31 +57,51 @@
 
 			</div>
 				<div class="content" align="center">
-					<a href="" class="ui center floated primary button">دریافت فایل</a>
+					<a href="../../media/{{ project.attachment }}" class="ui center floated primary button">دریافت فایل</a>
 			</div>
 		</div>
 </div>
 		<div align="right" dir="rtl">
-		نام پروژه: {{ project.name }}
+		<i class="cogs icon"></i>
+		<b>نام پروژه:</b>
+		{{ project.name }}
 		</div>
 		<div align="right" dir="rtl">
-		توضیحات: {{ project.description }}
+		<i class="info icon"></i>
+		<b>توضیحات پروژه:</b>
+		{{ project.description }}
 		</div>
 		{% if project.type == 1 %}
 		<div align="right" dir="rtl">
-		نوع کار: ترجمه
+		<i class="language icon"></i>
+		<b>نوع تسک:</b>
+		ترجمه
 		</div>
 		{% elif project.type == 2 %}
 		<div align="right" dir="rtl">
-		نوع کار: تایپ
+		<i class="keyboard outline icon"></i>
+		<b>نوع تسک:</b>
+		تایپ
+		</div>
+		{% elif project.type == 3 %}
+		<div align="right" dir="rtl">
+		<i class="pencil alternate icon"></i>
+		<b>نوع تسک:</b>
+		غیره
 		</div>
 		{% endif %}
+		<div align="right" dir="rtl">
+		<i class="tasks icon"></i>
+		<b>شماره ساب‌تسک:</b>
+		{{ subproject.id }}
+		</div>
+		
 		
 		
 		
 		<h2 class="ui horizontal divider header" dir="rtl">
-		  <i class="cogs icon"></i>
-			ارسال کار
+		  <i class="paper plane icon"></i>
+			ارسال تسک
 		</h2>
 		<form class="ui large form" method="post" enctype="multipart/form-data">
                     <div class="ui segment">

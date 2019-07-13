@@ -2,7 +2,7 @@ import random
 from django.test import SimpleTestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 import datetime
-from core.forms import ProjectCreationForm
+from core.forms import ProjectCreationForm, ContributorSubProjectForm
 
 
 class TestFormProject(SimpleTestCase):
@@ -21,3 +21,9 @@ class TestFormProject(SimpleTestCase):
         form = ProjectCreationForm(data={}, files={})
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 7)
+
+    def test_submit_subtask_form_valid(self):
+        upload_file = open('static/assets/image/logo.png', 'rb')
+        img = SimpleUploadedFile(upload_file.name, upload_file.read())
+        form = ContributorSubProjectForm(files={'attachment': img})
+        self.assertTrue(form.is_valid())

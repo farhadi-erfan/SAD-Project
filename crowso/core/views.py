@@ -112,19 +112,14 @@ def accept_task(request, project_id):
     prj.save()
     return redirect(reverse(
         'core:work'
-    ))
+    ), subproject_id=subproject.id)
 
 
 @login_required
-def work(request, project):
+def work(request, subproject_id):
 
-    project_name = project
-    projects = get_user_projects(request.user)
-    for p in projects:
-        if (p.name==project_name):
-            project = p
-            break
-
+    subproject = SubProject.objects.get(id=subproject_id)
+    project = Project.objects.get(id=subproject.project.id)
     if request.POST:
         form = forms.ContributorSubProjectForm(request.POST, request.FILES)
         print("well: ")

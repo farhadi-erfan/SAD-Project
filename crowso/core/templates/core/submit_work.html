@@ -1,0 +1,103 @@
+{% extends 'crowso/base.html' %}{% load static %}
+{% block title %}انجام پروژه{% endblock %}
+{% block body %}
+	<style type="text/css">
+        .masthead .ui.menu .ui.button {
+            font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
+            margin-left: 0.5em;
+        }
+    </style>
+  <style type="text/css">
+    body {
+	  font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
+      background-color: #DADADA;
+    }
+    body > .grid {
+      height: 100%;
+    }
+    .image {
+      margin-top: -100px;
+    }
+    .column {
+      max-width: 450px;
+    }
+  </style>
+  <script>
+	$(document)
+    .ready(function() {
+      $('.special.card .image').dimmer({
+        on: 'hover'
+      });
+      $('.star.rating')
+        .rating()
+      ;
+      $('.card .dimmer')
+        .dimmer({
+          on: 'hover'
+        })
+      ;
+    })
+  ;
+  </script>
+  <script src="card.js"></script>
+
+<body>
+
+
+<div class="ui raised very padded text container stacked segment">
+<div class="ui cards" style="margin-top: 50px;" align="center">
+
+		<div class="ui centered card">
+			<div class="image">
+                {% if project.picture.url %}
+                    <img src="{{ project.picture.url }}">
+                {% else %}
+                    <img src="{% static "assets/image/banner.jpg" %}">
+                {% endif %}
+
+			</div>
+				<div class="content" align="center">
+					<a href="" class="ui center floated primary button">دریافت فایل</a>
+			</div>
+		</div>
+</div>
+		<div align="right" dir="rtl">
+		نام پروژه: {{ project.name }}
+		</div>
+		<div align="right" dir="rtl">
+		توضیحات: {{ project.description }}
+		</div>
+		{% if project.type == 1 %}
+		<div align="right" dir="rtl">
+		نوع کار: ترجمه
+		</div>
+		{% elif project.type == 2 %}
+		<div align="right" dir="rtl">
+		نوع کار: تایپ
+		</div>
+		{% endif %}
+		
+		
+		
+		<h2 class="ui horizontal divider header" dir="rtl">
+		  <i class="cogs icon"></i>
+			ارسال کار
+		</h2>
+		<form class="ui large form" method="post" enctype="multipart/form-data">
+                    <div class="ui segment">
+                        {% csrf_token %}
+                        {% for field in form %}
+							{{ field }}
+                            {% for error in field.errors %}
+                                <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        <button type="submit" class="ui fluid large teal submit button">ارسال</button>
+                    </div>
+        </form>
+		<div class="ui inverted segment">
+  <div class="ui inverted relaxed divided list">
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -76,6 +76,7 @@ def withdraw(request):
     if request.POST:
         form = forms.WithdrawForm(request.POST)
         if form.is_valid():
+            print('aaaaaaaa')
             request.user.credit = 0
             request.user.save()
             return render(request, 'billing/withdraw.html', {
@@ -91,11 +92,6 @@ def withdraw(request):
             'form': form,
             'amount': request.user.credit
         })
-
-@login_required
-def work(request):
-    return HttpResponse('do')
-
 
 @login_required
 def accept_task(request, project_id):
@@ -118,3 +114,28 @@ def accept_task(request, project_id):
         'core:work'
     ))
 
+
+@login_required
+def work(request, project):
+
+    project_name = project
+    print("here: ", project_name)
+    projects = get_user_projects(request.user)
+    for p in projects:
+        if (p.name==project_name):
+            project = p
+            break
+
+    if request.POST:
+        form = forms.ContributorSubProjectForm(request.POST, request.FILES)
+        print("well: ")
+        if form.is_valid():
+            print("success")
+            #obj = form.save()
+            #set the attachment address
+            return redirect(reverse('core:home'))
+        else:
+            return render(request, 'core/submit_work.html', {'form': forms.ContributorSubProjectForm, 'project': project})
+    else:
+        form = forms.ContributorSubProjectForm
+        return render(request, 'core/submit_work.html', {'form': form, 'project': project})

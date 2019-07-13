@@ -44,6 +44,7 @@ class ContributorSubProject(models.Model):
                                        on_delete=models.CASCADE)
     start_date = models.DateTimeField(auto_now_add=True)
     deadline_date = models.DateField(null=True)
+    attachment = models.FileField(null=True)
 
     def save(self, *args, **kwargs):
         super(ContributorSubProject, self).save()

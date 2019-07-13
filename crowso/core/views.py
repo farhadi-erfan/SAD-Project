@@ -23,10 +23,7 @@ def project_creation_view(request):
         form = forms.ProjectCreationForm()
         return render(request, 'core/create_project.html', {'form': form})
 
-@login_required
-def home(request):
-
-    def get_user_projects(user):
+def get_user_projects(user):
         # import datetime
         # lipsum = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
         # return [{'name': 'ali', 'value': 10, 'description': lipsum, 'deadline': datetime.date.today}, {'name': 'bali', 'value': 30, 'description': lipsum, 'deadline': datetime.date.today}, {'name': 'vali', 'value': 40, 'description': lipsum, 'deadline': datetime.date.today}]
@@ -39,6 +36,10 @@ def home(request):
         )
 
         return ps
+
+@login_required
+def home(request):
+
     user = request.user
     projects = get_user_projects(user)
     for e in projects:
@@ -100,3 +101,28 @@ def accept_task(request, subproject_id):
         'core:home'
     ))
 
+
+@login_required
+def submit_work(request, project):
+
+    project_name = project
+    print("here: ", project_name)
+    projects = get_user_projects(request.user)
+    for p in projects:
+        if (p.name==project_name):
+            project = p
+            break
+
+    if request.POST:
+        form = forms.ContributorSubProjectForm(request.POST, request.FILES)
+        print("well: ")
+        if form.is_valid():
+            print("success")
+            #obj = form.save()
+            #set the attachment address
+            return redirect(reverse('core:home'))
+        else:
+            return render(request, 'core/submit_work.html', {'form': forms.ContributorSubProjectForm, 'project': project})
+    else:
+        form = forms.ContributorSubProjectForm
+        return render(request, 'core/submit_work.html', {'form': form, 'project': project})

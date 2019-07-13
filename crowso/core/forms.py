@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import widgets
 
-from core.models import Project
+from core.models import Project, ContributorSubProject
 
 
 class ProjectCreationForm(forms.ModelForm):
@@ -10,6 +10,12 @@ class ProjectCreationForm(forms.ModelForm):
         model = Project
         fields = ['name', 'description', 'attachment', 'picture',
                   'value', 'type', 'deadline']
+
+class ContributorSubProjectForm(forms.ModelForm):
+
+    class Meta:
+        model = ContributorSubProject
+        fields = ['attachment']
 
 
 class ChargeCreditForm(forms.Form):

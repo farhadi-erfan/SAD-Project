@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'semanticuiforms',
-    'core'
+    'core',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [

@@ -1,4 +1,5 @@
 from datetime import datetime
+from django import forms
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -7,8 +8,9 @@ from django.shortcuts import render
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import generic
+from django.views.generic import UpdateView
 
-from accounts.models import Requester
+from accounts.models import Requester, User
 from core.models import Project, RequesterProject, SubProject
 from .forms import UserSignupForm
 
@@ -46,3 +48,11 @@ def view_subprojects(request):
 
 def accept_subproject():
     pass
+
+
+class UpdateProfile(UpdateView):
+    model = User
+    fields = ['name', 'address', 'phone_number', 'picture']
+    template_name = 'edit_profile.html'
+    pk_url_kwarg = 'id'
+    success_url = reverse_lazy('core:home')

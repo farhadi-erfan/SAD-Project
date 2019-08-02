@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import UpdateView
 
-from accounts.models import Requester, User
+from accounts.models import Requester, User, Contributor
 from core.models import Project, RequesterProject, SubProject
 from .forms import UserSignupForm
 
@@ -23,13 +23,22 @@ class SignupView(generic.CreateView):
 
 @login_required
 def view_profile(request):
-    projects = Project.objects.filter(
-        requesterproject__requester=Requester.objects.get(user=request.user)
-    )
-    return render(request, 'profile.html', {
-        'user': request.user,
-        'projects': projects
-    })
+    if request.user.is_requester:
+        projects = Project.objects.filter(
+            requesterproject__requester=Requester.objects.get(user=request.user)
+        )
+        return render(request, 'profile.html', {
+            'user': request.user,
+            'projects': projects
+        })
+    else:
+        subprojects = SubProject.objects.filter(
+            contributor=Contributor.objects.get(user=request.user)
+        )
+        return render(request, 'profile.html', {
+            'user': request.user,
+            'projects': subprojects
+        })
 
 
 @login_required

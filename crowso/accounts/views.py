@@ -11,7 +11,7 @@ from django.views import generic
 from django.views.generic import UpdateView
 
 from accounts.models import Requester, User, Contributor
-from core.models import Project, RequesterProject, SubProject
+from core.models import Project, RequesterProject, SubProject, ContributorSubProject
 from .forms import UserSignupForm
 
 
@@ -32,9 +32,12 @@ def view_profile(request):
             'projects': projects
         })
     else:
-        subprojects = SubProject.objects.filter(
+        csp = ContributorSubProject.objects.select_related('sub_project').filter(
             contributor=Contributor.objects.get(user=request.user)
-        )
+        ).values_list('sub_project_id', flat=True)
+        subprojects = SubProject.objects.filter(
+            id__in=csp
+        ).order_by('contributor__deadline_date')
         return render(request, 'profile.html', {
             'user': request.user,
             'projects': subprojects

@@ -110,6 +110,12 @@ def withdraw(request):
 @login_required
 def accept_task(request, project_id):
     prj = Project.objects.get(id=project_id)
+    accepted_subprojects_count = ContributorSubProject.objects.filter(
+        contributor__user=request.user,
+        sub_project__project=prj
+    ).count()
+    if accepted_subprojects_count > 0:
+        raise Http404
     try:
         contributor = Contributor.objects.get(user=request.user)
         subprojects = SubProject.objects.filter(project=prj)
@@ -117,6 +123,7 @@ def accept_task(request, project_id):
             if x and not x.done and not x.assigned:
                 subproject = x
                 break
+
     except Contributor.DoesNotExist:
         raise Http404
     except SubProject.DoesNotExist:

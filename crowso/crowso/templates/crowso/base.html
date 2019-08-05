@@ -32,4 +32,19 @@
     {% include 'crowso/footer.html' %}
 {% endblock footer %}
 </body>
+{% block message %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="direction: rtl; color: green;">{{ message }} </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+<script>
+$(document).ready(function(){
+    $('.messages').delay(5000).fadeOut();
+});
+</script>
+{% endblock %}
+
 </html>

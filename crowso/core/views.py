@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -63,9 +64,9 @@ class HomeView(View):
     def get(self, request):
         user = request.user
         if user.is_requester:
-            self.handle_requester_home(request)
+            return self.handle_requester_home(request)
         else:
-            self.handle_contributor_home(request)
+            return self.handle_contributor_home(request)
 
     def handle_requester_home(self, request):
         user = request.user
@@ -120,6 +121,11 @@ def withdraw(request):
         if form.is_valid():
             request.user.credit = 0
             request.user.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'پرداخت شد.'
+            )
             return render(request, 'billing/withdraw.html', {
                 'success': True
             })
@@ -244,4 +250,9 @@ def accept_subproject(request, sp_id):
         user = subproject.contributor.contributor.user
         user.credit += subproject.price
         user.save()
+    messages.add_message(
+        request,
+        messages.SUCCESS,
+        'تسک با موفقیت قبول شد!'
+    )
     return redirect('core:home')

@@ -14,5 +14,6 @@ urlpatterns = [
     path(r'work/<int:subproject_id>', views.work, name='work'),
     path(r'accept_task/<int:project_id>/', views.accept_task, name='accept_task'),
     path(r'accept_subproject/<int:sp_id>', views.accept_subproject, name='accept_subproject'),
-    path(r'deny_subproject/<int:sp_id>', views.deny_subproject, name='deny_subproject')
+    path(r'deny_subproject/<int:sp_id>', views.deny_subproject, name='deny_subproject'),
+    path(r'project_view/<int:project_id>', views.project_state_view, name='project_view')
 ]

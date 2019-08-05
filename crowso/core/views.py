@@ -204,6 +204,7 @@ def work(request, subproject_id):
 
 @login_required
 def project_state_view(request, project_id):
+    template = ''
     try:
         project = Project.objects.get(
             id=project_id
@@ -214,6 +215,10 @@ def project_state_view(request, project_id):
     subprojects = SubProject.objects.filter(
         project=project
     )
+    return render(request, template, context={
+        'subprojects': subprojects,
+        'project': project
+    })
 
 
 @login_required

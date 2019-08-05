@@ -124,12 +124,15 @@ def withdraw(request):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                'پرداخت شد.'
+                'با موفقیت پرداخت شد.'
             )
-            return render(request, 'billing/withdraw.html', {
-                'success': True
-            })
+            return redirect(reverse('core:home'))
         else:
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'پرداخت ناموفق!'
+            )
             return render(request, 'billing/withdraw.html', {
                 'success': False
             })

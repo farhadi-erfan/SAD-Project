@@ -15,14 +15,12 @@
                         {% csrf_token %}
                         {% for field in form %}
                             <div class="field">
-                                <div class="ui right icon input">
-                                    {{ field|html_placeholder }}
-                                    {% if field.label == 'Username' or field.label == 'Phone number' or field.label == 'Name' %}
+                                {{ field|html_placeholder }}
+                                {% if field.label == 'Phone number' or field.label == 'Name' or field.label == 'Email address' or field.label == 'Address' %}
+                                    <div class="ui right icon input">
                                         <i class="ui user icon"></i>
-                                    {% elif field.label == 'Email address' or field.label == 'Address' %}
-                                        <i class="ui user icon"></i>
-                                    {% endif %}
-                                </div>
+                                    </div>
+                                {% endif %}
                             </div>
                             {% if field.help_text %}
                                 <small style="color: grey">{{ field.help_text }}</small>
@@ -40,6 +38,15 @@
 
     </div>
 <script>
-    document.getElementById("id_picture").classList.add("two fields");
+    $(document).ready(function () {
+        let a = document.getElementsByClassName("field");
+        a.forEach(function (item) {
+            item.innerHTML.replace('Change', 'ککه');
+        });
+        console.log("سشس");
+    });
+    {#document.getElementById("id_picture").innerHTML.replace('Change', 'ککه');#}
+    {#document.getElementsByClassName("field").replace('Change', 'ککه');#}
+    {#console.log("سشس");#}
 </script>
 {% endblock %}

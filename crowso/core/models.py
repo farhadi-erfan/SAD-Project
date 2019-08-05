@@ -36,6 +36,8 @@ class SubProject(models.Model):
     percent = models.IntegerField(validators=[validate_percent])
     done = models.BooleanField(default=False)
     assigned = models.BooleanField(default=False)
+    accepted = models.BooleanField(null=True)
+    price = models.PositiveIntegerField(default=0)
 
 
 class ContributorSubProject(models.Model):
@@ -54,12 +56,3 @@ class ContributorSubProject(models.Model):
         if not self.deadline_date:
             self.deadline_date = self.sub_project.project.deadline
 
-
-class Revision(models.Model):
-    contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
-    sub_project = models.ForeignKey(SubProject, on_delete=models.CASCADE)
-    accepted = models.BooleanField(default=False)
-    revise_date = models.DateTimeField(null=True)
-
-    def is_rejected(self):
-        return self.revise_date is not None and not self.accepted

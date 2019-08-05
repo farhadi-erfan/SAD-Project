@@ -10,7 +10,16 @@ class ProjectCreationForm(forms.ModelForm):
         model = Project
         fields = ['name', 'description', 'attachment', 'picture', 'subprojects_num',
                   'value', 'type', 'deadline']
-
+        labels = {
+            'name': "نام",
+            'description': "توضیحات پروژه",
+            'attachment': "فایل پیوست پروژه",
+            'picture': "تصویر",
+            'subprojects_num': "تعداد تسک‌ها",
+            'value': "ارزش به ریال",
+            'type': "نوع",
+            'deadline': "تاریخ نهایی"
+        }
 
 class ContributorSubProjectForm(forms.Form):
     attachment = forms.FileField(label='فایل نهایی')

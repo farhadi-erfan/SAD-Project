@@ -1,8 +1,17 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 from accounts.models import Contributor, Requester
 from core.utils import validate_percent
 
+
+class ProjectManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(approved_by_admin=True)
+
+class ProjectAdminManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset()
 
 class Project(models.Model):
     name = models.CharField(max_length=50)
@@ -10,12 +19,14 @@ class Project(models.Model):
     value = models.PositiveIntegerField()
     deadline = models.DateField()
     picture = models.ImageField()
-    attachment = models.FileField()
+    attachment = models.FileField(validators=[FileExtensionValidator(['pdf', 'tex'])])
     subprojects_num = models.IntegerField(default=1)
 
     TRANSLATE = 1
     TYPE = 2
     OTHER = 3
+    admin_manager = ProjectAdminManager()
+    objects = ProjectManager()
 
     TYPE_CHOICES = (
         (TRANSLATE, 'translate'),
@@ -24,6 +35,7 @@ class Project(models.Model):
     )
 
     type = models.IntegerField(choices=TYPE_CHOICES)
+    approved_by_admin = models.BooleanField(default=False)
 
 
 class RequesterProject(models.Model):

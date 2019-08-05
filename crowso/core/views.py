@@ -130,7 +130,7 @@ def withdraw(request):
         else:
             messages.add_message(
                 request,
-                messages.SUCCESS,
+                messages.MessageFailure,
                 'پرداخت ناموفق!'
             )
             return render(request, 'billing/withdraw.html', {

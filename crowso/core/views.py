@@ -1,6 +1,6 @@
 import os
 
-import StringIO
+from io import StringIO
 import zipfile
 
 from django.contrib import messages

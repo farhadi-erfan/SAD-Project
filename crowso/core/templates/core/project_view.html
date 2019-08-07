@@ -51,8 +51,9 @@
                                     <p>تسک شمارهٔ: {{ subprj.number }}</p>
                                     <p>آیا کارگزاری این تسک را پذیرفته است؟ {% if subprj.assigned %} بله {% else %}
                                         خیر{% endif %}</p>
-                                    <p> وضعیت تسک:{% if subprj.done %} انجام شده {% else %} در حال
-                                        انجام {% endif %}</p>
+                                    <p> وضعیت تسک:{% if subprj.done %} انجام شده {% else %}{% if subprj.assigned %}  در حال انجام
+                                        {% else %} در انتظار پذیرش توسط کارگزار {% endif %}
+                                    {% endif %}</p>
                                 </div>
                                 {% if subprj.done %}
                                     <br>
@@ -61,12 +62,19 @@
                                         <p>دانلود نتیجهٔ تسک</p>
                                     </a>
                                     <br>
-                                    <br>
-                                    <div class="ui buttons">
-                                        <a class="ui negative button" href={% url 'core:deny_subproject' sp_id=subprj.id %}>رد تسک</a>
-                                        <div class="or"></div>
-                                        <a class="ui positive button" href={% url 'core:accept_subproject' sp_id=subprj.id %}>قبول تسک</a>
-                                    </div>
+                                    {% if subprj.done %}
+                                        <br>
+                                        <p>پرداخت انجام شده است</p>
+                                    {% else %}
+                                        <br>
+                                        <div class="ui buttons">
+                                            <a class="ui negative button"
+                                               href={% url 'core:deny_subproject' sp_id=subprj.id %}>رد تسک</a>
+                                            <div class="or"></div>
+                                            <a class="ui positive button"
+                                               href={% url 'core:accept_subproject' sp_id=subprj.id %}>قبول تسک</a>
+                                        </div>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>

@@ -285,7 +285,10 @@ def accept_subproject(request, sp_id):
         raise Http404
     with transaction.atomic():
         subproject.accepted = True
-        user = subproject.contributor.contributor.user
+        csp = ContributorSubProject.objects.get(
+            sub_project=subproject
+        )
+        user = csp.contributor.user
         user.credit += subproject.price
         user.save()
     messages.add_message(

@@ -19,7 +19,7 @@ class Project(models.Model):
     value = models.PositiveIntegerField()
     deadline = models.DateField()
     picture = models.ImageField()
-    attachment = models.FileField(validators=[FileExtensionValidator(['pdf', 'tex'])])
+    attachment = models.FileField(validators=[FileExtensionValidator(['pdf', 'tex', 'zip', 'rar', 'psd'])])
     subprojects_num = models.IntegerField(default=1)
 
     TRANSLATE = 1

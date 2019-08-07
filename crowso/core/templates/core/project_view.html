@@ -1,0 +1,80 @@
+{% extends 'crowso/base.html' %}
+{% load staticfiles %}
+{% block title %}مشاهده جزییات پروژه{% endblock %}
+{% block body %}
+
+    <style type="text/css">
+        .masthead .ui.menu .ui.button {
+            font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
+            margin-left: 0.5em;
+        }
+    </style>
+
+    <h1 class="ui center aligned teal icon header" dir="rtl">
+        <i class="circular teal tint icon"></i>
+        <p>مشاهده جزییات پروژه</p>
+    </h1>
+    <div class="ui segment" align="center">
+
+        <div class="ui raised very padded text container stacked segment">
+
+            <div class="ui centered link card">
+                <div class="image">
+                    <img src="{{ project.picture.url }}">
+                    {#                        <img src="{% static "assets/image/logo.png" %}">#}
+                </div>
+                <div class="content">
+                    <div class="name" dir="rtl">{{ project.name }} <strong><br/>قیمت:
+                    </strong> {{ project.value }}
+                    </div>
+                    <p class="description" dir="rtl">{{ project.description }}</p>
+                    <div class="extra content">
+                            <span class="center floated" dir="rtl"><br><br>
+                                    <strong>تعداد تسک‌ها: </strong> {{ project.subprojects_num }}<br>
+                                    <strong>مهلت انجام: </strong> {{ project.deadline }}<br>
+                            </span>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+            <a class="ui teal primary button" href={% url "core:get_result" project.id %}>
+                <p>دانلود همهٔ تسک‌ها</p>
+            </a>
+
+            <div class="ui segment">
+                <div class="ui relaxed divided list">
+                    {% for subprj in subprojects %}
+                        <div class="item">
+                            <div class="content">
+                                <div class="header" dir="rtl" align="center">
+                                    <p>تسک شمارهٔ: {{ subprj.number }}</p>
+                                    <p>آیا کارگزاری این تسک را پذیرفته است؟ {% if subprj.assigned %} بله {% else %}
+                                        خیر{% endif %}</p>
+                                    <p> وضعیت تسک:{% if subprj.done %} انجام شده {% else %} در حال
+                                        انجام {% endif %}</p>
+                                </div>
+                                {% if subprj.done %}
+                                    <br>
+                                    <a class="ui teal primary button"
+                                       href={{ subprj.attachment.url }}>
+                                        <p>دانلود نتیجهٔ تسک</p>
+                                    </a>
+                                    <br>
+                                    <br>
+                                    <div class="ui buttons">
+                                        <a class="ui negative button" href={% url 'core:deny_subproject' sp_id=subprj.id %}>رد تسک</a>
+                                        <div class="or"></div>
+                                        <a class="ui positive button" href={% url 'core:accept_subproject' sp_id=subprj.id %}>قبول تسک</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

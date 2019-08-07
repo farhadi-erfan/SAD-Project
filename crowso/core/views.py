@@ -61,8 +61,10 @@ class HomeView(View):
         )
         return ps
 
-    def get_available_projects(self, user):
+    def get_available_projects(self, user, query):
         psp = Project.objects.all()
+        if query != "" and query is not None:
+            psp = psp.filter(name__icontains=query)
         sps = SubProject.objects.all()
         csps = ContributorSubProject.objects.all()
         ps = []
@@ -93,6 +95,7 @@ class HomeView(View):
         user = request.user
         requester = Requester.objects.get(user=user)
         projects = self.get_user_projects(user)
+        print(projects)
         return render(request, self.template, {
             'projects': projects,
             'is_requester': True
@@ -108,11 +111,12 @@ class HomeView(View):
         return subprojects
 
     def handle_contributor_home(self, request):
+        name_contains = request.GET.get('name_contains')
         user = request.user
         contributor = Contributor.objects.get(
             user=user
         )
-        projects = self.get_available_projects(user)
+        projects = self.get_available_projects(user, name_contains)
         subprojects = self.get_contributor_subprojects(contributor)
         return render(request, self.template, {
             'projects': projects,
@@ -161,7 +165,7 @@ def withdraw(request):
         form = forms.WithdrawForm()
         return render(request, 'billing/withdraw.html', {
             'form': form,
-            'amount': request.user.credit
+            'user': request.user
         })
 
 
@@ -234,7 +238,7 @@ def work(request, subproject_id):
 
 @login_required
 def project_state_view(request, project_id):
-    template = ''
+    template = 'core/project_view.html'
     try:
         project = Project.objects.get(
             id=project_id

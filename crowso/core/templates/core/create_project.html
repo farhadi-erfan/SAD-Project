@@ -3,40 +3,58 @@
 {% load semanticui %}
 {% block title %}ایجاد پروژه{% endblock %}
 {% block body %}
-	<style type="text/css">
+    <style type="text/css">
         .masthead .ui.menu .ui.button {
             font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
             margin-left: 0.5em;
         }
     </style>
-    <div class="ui center aligned container">
-        <div class="ui middle aligned center aligned grid">
-            <div class="six wide column">
-                <h2 class="ui teal image header">
-                    <div class="content">
-                        ایجاد پروژه
+    <div class="ui middle aligned stackable grid">
+        <div class="thirteen wide column">
+            <div class="ui center aligned container">
+                <div class="ui middle aligned center aligned grid">
+                    <div class="six wide column">
+                        <h2 class="ui teal image header">
+                            <div class="content">
+                                ایجاد پروژه
+                            </div>
+                        </h2>
+                        <form class="ui large form" method="post" enctype="multipart/form-data">
+                            <div class="ui segment" dir="rtl">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    {% render_field field _inline=1 %}
+                                    {% if field.help_text %}
+                                        <small style="color: grey">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <p style="color: red">{{ error }}</p>
+                                    {% endfor %}
+                                {% endfor %}
+                                <button type="submit" class="ui fluid large teal submit button"><p>ساخت پروژه</p>
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </h2>
-                <form class="ui large form" method="post" enctype="multipart/form-data">
-                    <div class="ui segment" dir="rtl">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            {% render_field field _inline=1%}
-                            {% if field.help_text %}
-                                <small style="color: grey">{{ field.help_text }}</small>
-                            {% endif %}
-                            {% for error in field.errors %}
-                                <p style="color: red">{{ error }}</p>
-                            {% endfor %}
-                        {% endfor %}
-                        <button type="submit" class="ui fluid large teal submit button">ساخت پروژه</button>
-                    </div>
-                </form>
+                </div>
+            </div>
+        </div>
+        <div class="three wide column">
+            <div class="ui inverted large inverted fluid vertical menu">
+                <a href="{% url 'core:home' %}" class="teal button item" dir="rtl" style="text-align: center">خانه</a>
+                <a class="yellow active button item" href="{% url 'core:create_project' %}" dir="rtl"
+                   style="text-align: center">ایجاد پروژه</a>
+                <a href="{% url 'accounts:show_profile' %}" class="olive button item" dir="rtl"
+                   style="text-align: center">مشاهده و ویرایش پروفایل</a>
+                <a href="{% url 'core:withdraw' %}" class="red button item" dir="rtl" style="text-align: center">تسویه
+                    حساب</a>
+                <a href="{% url 'core:credit' %}" class="green button item" dir="rtl" style="text-align: center">افزایش
+                    اعتبار</a>
             </div>
         </div>
     </div>
-‍
-    <script>
-        $('.dropdown').dropdown();
-    </script>
+                ‍
+                <script>
+                    $('.dropdown').dropdown();
+                </script>
 {% endblock %}

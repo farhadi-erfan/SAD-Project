@@ -29,7 +29,7 @@ def view_profile(request):
         )
         return render(request, 'profile.html', {
             'user': request.user,
-            'projects': projects
+            'projects': projects,
         })
     else:
         csp = ContributorSubProject.objects.select_related('sub_project').filter(

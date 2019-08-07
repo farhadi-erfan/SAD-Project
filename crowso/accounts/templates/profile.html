@@ -1,112 +1,145 @@
-{% extends 'crowso/base.html' %}{% load static %}
+{% extends 'crowso/base.html' %}
+{% load static %}
+{% load staticfiles %}
+{% load semanticui %}
 {% block title %}نمایه کاربری{% endblock %}
 {% block body %}
 
-  <style type="text/css">
-    body {
-      background-color: #DADADA;
-    }
-    body > .grid {
-      height: 100%;
-    }
-    .image {
-      margin-top: -100px;
-    }
-    .column {
-      max-width: 450px;
-    }
-  </style>
-  <script>
-	$(document)
-    .ready(function() {
-      $('.special.card .image').dimmer({
-        on: 'hover'
-      });
-      $('.star.rating')
-        .rating()
-      ;
-      $('.card .dimmer')
-        .dimmer({
-          on: 'hover'
-        })
-      ;
-    })
-  ;
-  </script>
-  <script src="card.js"></script>
-
-<body>
+    <style type="text/css">
+        .masthead .ui.menu .ui.button {
+            font-family: 'Vazir', 'IRANSans(FaNum)', 'Arial', sans-serif;
+            margin-left: 0.5em;
+        }
+    </style>
+    <script>
+        $(document)
+            .ready(function () {
+                $('.special.card .image').dimmer({
+                    on: 'hover'
+                });
+                $('.star.rating')
+                    .rating()
+                ;
+                $('.card .dimmer')
+                    .dimmer({
+                        on: 'hover'
+                    })
+                ;
+            })
+        ;
+    </script>
+    <script src="card.js"></script>
 
 
-<div class="ui raised very padded text container stacked segment">
+    <div class="ui middle aligned stackable grid">
+        <div class="thirteen wide column">
+            <div class="ui raised very padded text container stacked segment">
 
 
-		<div class="ui centered card">
-			<div class="image">
-                {% if user.picture %}
-                    <img src="{{ user.picture.url }}">
-                {% else %}
-                    <img src="{% static "assets/image/banner.jpg" %}">
-                {% endif %}
+                <div class="ui centered card">
+                    <div class="image">
+                        {% if user.picture %}
+                            <img src="{{ user.picture.url }}">
+                        {% else %}
+                            <img src="{% static "assets/image/banner.jpg" %}">
+                        {% endif %}
 
-			</div>
-				<div class="content" >
-					<a class="header">{{ user.name }}</a>
-					<div class="meta">
-					  <span>@{{ user.username }}</span>
-					</div>
-					<div class="description" dir="rtl">
-					  اعتبار: {{ user.credit }}
-					</div>
-				</div>
-		</div>
-		<h2 class="ui horizontal divider header" dir="rtl" style="font-family: Vazir">
-		  <i class="user blue icon"></i>
-			مشخصات کاربر
-            <a href={% url 'accounts:update_profile' user.id %}><i class="blue pencil alternate icon"></i></a>
-		</h2>
-		<div class="ui list" dir="rtl">
-		  <div class="item">
-			<i class="blue users icon"></i>
-			<div class="content">
-				{{ user.name }}
-			</div>
-		  </div>
-		  <div class="item">
-			<i class="blue marker icon"></i>
-			<div class="content">
-			  {{ user.address }}
-			</div>
-		  </div>
-		  <div class="item">
-			<i class="blue mail icon"></i>
-			<div class="content">
-			  <a href="mailto:jack@semantic-ui.com">{{ user.email }}</a>
-			</div>
-		  </div>
-		  <div class="item">
-			<i class="blue phone icon"></i>
-			<div class="content">
-			  {{ user.phone_number }}
-			</div>
-		  </div>
-		</div>
-		<h2 class="ui horizontal divider header" dir="rtl" style="font-family: Vazir">
-		  <i class="blue cogs icon"></i>
-			پروژه‌ها
-		</h2>
-		<div class="ui inverted segment">
-  <div class="ui inverted relaxed divided list">
-    {% for project in projects %}
-        <div class="item">
-          <div class="content">
-            <div class="header" dir="rtl">{{ project.name }}</div>
-            {{ project.descritption }}
-          </div>
+                    </div>
+                    <div class="content">
+                        <a class="header">{{ user.name }}</a>
+                        <div class="meta">
+                            <span>@{{ user.username }}</span>
+                        </div>
+                        <div class="description" dir="rtl">
+                            اعتبار: {{ user.credit }}
+                        </div>
+                    </div>
+                </div>
+                <h2 class="ui horizontal divider header" dir="rtl">
+                    <i class="user olive icon"></i>
+                    <p>مشخصات کاربر</p>
+                </h2>
+                <div class="ui list" dir="rtl">
+                    <div class="item">
+                        <i class="olive users icon"></i>
+                        <div class="content">
+                            {{ user.name }}
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="olive marker icon"></i>
+                        <div class="content">
+                            {{ user.address }}
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="olive mail icon"></i>
+                        <div class="content">
+                            <p> {{ user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="olive phone icon"></i>
+                        <div class="content">
+                            {{ user.phone_number }}
+                        </div>
+                    </div>
+                </div>
+                <h2 class="ui horizontal divider header" dir="rtl">
+                    <i class="olive cogs icon"></i>
+                    <p>پروژه‌ها</p>
+                </h2>
+                <div class="ui inverted segment">
+                    <div class="ui inverted relaxed divided list">
+                        {% for project in projects %}
+                            <div class="item">
+                                <div class="content">
+                                    <div class="header" dir="rtl" align="center"><p>{{ project.name }}</p></div>
+                                    {{ project.descritption }}
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <div class="ui labeled huge button" tabindex="0">
+                        <a class="ui olive button" href={% url 'accounts:update_profile' user.id %}>
+                            <i class="white pencil large icon"></i>
+                        </a>
+                        <a class="ui basic olive left pointing label" href={% url 'accounts:update_profile' user.id %}>
+                            ویرایش پروفایل
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="three wide column">
+            {% if user.is_requester %}
+
+                <div class="ui inverted large inverted fluid vertical menu">
+                    <a href="{% url 'core:home' %}" class="teal button item" dir="rtl"
+                       style="text-align: center">خانه</a>
+                    <a class="yellow button item" href="{% url 'core:create_project' %}" dir="rtl"
+                       style="text-align: center">ایجاد پروژه</a>
+                    <a href="{% url 'accounts:show_profile' %}" class="olive active button item" dir="rtl"
+                       style="text-align: center">مشاهده و ویرایش پروفایل</a>
+                    <a href="{% url 'core:withdraw' %}" class="red button item" dir="rtl" style="text-align: center">تسویه
+                        حساب</a>
+                    <a href="{% url 'core:credit' %}" class="green button item" dir="rtl" style="text-align: center">افزایش
+                        اعتبار</a>
+                </div>
+            {% else %}
+                <div class="ui inverted large inverted fluid vertical menu">
+                    <a href="{% url 'core:home' %}" class="teal button item" dir="rtl"
+                       style="text-align: center">خانه</a>
+                    <a href="{% url 'accounts:show_profile' %}" class="olive active button item" dir="rtl"
+                       style="text-align: center">مشاهده و ویرایش پروفایل</a>
+                    <a href="{% url 'core:withdraw' %}" class="red button item" dir="rtl" style="text-align: center">تسویه
+                        حساب</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
-
-    {% endfor %}
-  </div>
-</div>
-</div>
 {% endblock %}

@@ -34,7 +34,11 @@ def project_creation_view(request):
                 project=obj, requester=requester)
             for i in range(obj.subprojects_num):
                 SubProject.objects.create(
-                    project=obj, percent=0)
+                    project=obj,
+                    percent=0,
+                    number=i,
+                    price=obj.value / obj.subprojects_num,
+                )
             return redirect(reverse('core:home'))
         else:
             return render(request, 'core/create_project.html', {'form': form})
@@ -251,6 +255,12 @@ def deny_subproject(request, sp_id):
     with transaction.atomic():
         subproject.accepted = False
         subproject.save()
+        SubProject.objects.create(
+            project=subproject.project,
+            number=subproject.number,
+            percent=0,
+            price=subproject.price
+        )
     return redirect('core:home')
 
 

@@ -50,6 +50,7 @@ class SubProject(models.Model):
     assigned = models.BooleanField(default=False)
     accepted = models.BooleanField(null=True)
     price = models.PositiveIntegerField(default=0)
+    number = models.PositiveIntegerField(default=0)
 
 
 class ContributorSubProject(models.Model):

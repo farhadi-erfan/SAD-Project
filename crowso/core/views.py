@@ -246,7 +246,9 @@ def project_state_view(request, project_id):
         project=project
     )
     for sp in subprojects:
-        sp.attachment = sp.contributor.attachment
+        if sp.assigned:
+            csp = ContributorSubProject.objects.get(sub_project=sp)
+            sp.attachment = csp.attachment
     return render(request, template, context={
         'subprojects': subprojects,
         'project': project

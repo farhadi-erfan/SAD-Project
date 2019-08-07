@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.6"
+services:
+  - sqlite
+env:
+  -DJANGO=2.1 DB=sqlite
+install:
+  - pip install -r crowso/requirements.txt
+before_script:
+  - python crowso/manage.py migrate
+script:
+- python crowso/manage.py test

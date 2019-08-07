@@ -298,11 +298,13 @@ def download_all_exports(request, project_id):
 
     filenames = []
     for sp in project.subproject_set.filter(done=True):
-        filenames += [sp.contributor.attachment.path]
+        if sp.assigned:
+            csp = ContributorSubProject.objects.get(sub_project=sp)
+        filenames += [csp.attachment.path]
 
     zip_subdir = "exportfiles"
-    zipfilename = '{}.zip'.format(project.name)
-    s = StringIO.StringIO()
+    zip_filename = '{}.zip'.format(project.name)
+    s = StringIO()
     zf = zipfile.ZipFile(s, "w")
     for fpath in filenames:
         fdir, fname = os.path.split(fpath)

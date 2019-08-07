@@ -245,6 +245,8 @@ def project_state_view(request, project_id):
     subprojects = SubProject.objects.filter(
         project=project
     )
+    for sp in subprojects:
+        sp.attachment = sp.contributor.attachment
     return render(request, template, context={
         'subprojects': subprojects,
         'project': project

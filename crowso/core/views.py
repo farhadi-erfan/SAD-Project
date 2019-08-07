@@ -33,7 +33,9 @@ def project_creation_view(request):
                 return redirect(reverse('core:create_project'))
             else:
                 requester.user.credit -= obj.value
+                print(requester.user.credit, obj.value)
                 requester.save()
+                requester.user.save()
             obj.save()
             RequesterProject.objects.create(
                 project=obj, requester=requester)

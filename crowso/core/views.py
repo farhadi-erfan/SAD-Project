@@ -300,7 +300,7 @@ def download_all_exports(request, project_id):
     for sp in project.subproject_set.filter(done=True):
         if sp.assigned:
             csp = ContributorSubProject.objects.get(sub_project=sp)
-        filenames += [csp.attachment.path]
+            filenames += [csp.attachment.path]
 
     zip_subdir = "exportfiles"
     zip_filename = '{}.zip'.format(project.name)

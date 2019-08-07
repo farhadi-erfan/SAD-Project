@@ -1,6 +1,6 @@
 import os
 
-from io import StringIO
+from io import BytesIO
 import zipfile
 
 from django.contrib import messages
@@ -308,13 +308,13 @@ def download_all_exports(request, project_id):
 
     zip_subdir = "exportfiles"
     zip_filename = '{}.zip'.format(project.name)
-    s = StringIO()
+    s = BytesIO()
     zf = zipfile.ZipFile(s, "w")
     for fpath in filenames:
         fdir, fname = os.path.split(fpath)
         zip_path = os.path.join(zip_subdir, fname)
         zf.write(fpath, zip_path)
     zf.close()
-    resp = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
+    resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     resp['Content-Disposition'] = 'attachment; filename=%{}'.format(zip_filename)
     return resp

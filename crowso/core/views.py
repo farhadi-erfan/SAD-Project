@@ -17,9 +17,21 @@ def project_creation_view(request):
     if request.POST:
         form = forms.ProjectCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            obj = form.save()
+            requester = Requester.objects.get(user=request.user)
+            obj = form.save(commit=False)
+            if obj.value > requester.user.credit:
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    'مبلغ پیشنهادی بیشتر از اعتبار حساب است.'
+                )
+                return redirect(reverse('core:create_project'))
+            else:
+                requester.user.credit -= obj.value
+                requester.save()
+            obj.save()
             RequesterProject.objects.create(
-                project=obj, requester=Requester.objects.get(user=request.user))
+                project=obj, requester=requester)
             for i in range(obj.subprojects_num):
                 SubProject.objects.create(
                     project=obj, percent=0)

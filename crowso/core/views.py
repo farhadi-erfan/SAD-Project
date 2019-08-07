@@ -1,3 +1,8 @@
+import os
+
+import StringIO
+import zipfile
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -281,3 +286,25 @@ def accept_subproject(request, sp_id):
         'تسک با موفقیت قبول شد!'
     )
     return redirect('core:home')
+
+
+@login_required
+def download_all_exports(request, project_id):
+    project = Project.objects.get(id=project_id)
+
+    filenames = []
+    for sp in project.subproject_set.filter(done=True):
+        filenames += [sp.contributor.attachment.path]
+
+    zip_subdir = "exportfiles"
+    zipfilename = '{}.zip'.format(project.name)
+    s = StringIO.StringIO()
+    zf = zipfile.ZipFile(s, "w")
+    for fpath in filenames:
+        fdir, fname = os.path.split(fpath)
+        zip_path = os.path.join(zip_subdir, fname)
+        zf.write(fpath, zip_path)
+    zf.close()
+    resp = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
+    resp['Content-Disposition'] = 'attachment; filename=%{}'.format(zip_filename)
+    return resp
